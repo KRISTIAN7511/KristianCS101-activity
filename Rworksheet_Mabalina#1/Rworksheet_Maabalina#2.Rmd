@@ -1,0 +1,182 @@
+---
+title: "Rworksheet_Mabalina#2"
+author: "Kristian B. Mabalina"
+date: "2024-09-25"
+output:
+  html_document:
+    df_print: paged
+---
+
+#1
+```{r}
+#a
+seq(-5 , 5)
+x <- (1:7)
+
+```
+#b
+```{r}
+
+x <- (1:7)
+```
+
+#2
+```{r}
+seq(1, 3, by=0.2)
+```
+
+#3
+```{r}
+workers <-c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27,
+22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 37, 43, 53, 41, 51, 35,
+24,33, 41, 53, 40, 18, 44, 38, 41, 48, 27, 39, 19, 30, 61, 54, 58, 26,
+18)
+```
+#a
+```{r}
+Workers <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27,
+22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 37, 43, 53, 41, 51, 35,
+24,33, 41, 53, 40, 18, 44, 38, 41, 48, 27, 39, 19, 30, 61, 54, 58, 26,
+18)
+work <- Workers
+work
+```
+#b
+```{r}
+work <- c(2,4)
+```
+#c
+```{r}
+work <- c(- 4,12)
+```
+#4
+```{r}
+x <- c("first"=3, "second"=0, "third"=9)
+```
+#a
+```{r}
+selected_elements <- c("first", "third")
+```
+#b
+```{r}
+selected_elements
+```
+#5
+```{r}
+seq(-3,2)
+```
+#a
+```{r}
+x[2] <-c(0)
+```
+#b
+```{r}
+#x[2] <-c(0)
+#
+```
+#6
+#a
+```{r}
+dieselfuel <- data.frame(
+Month = c("Jan", "Feb", "March", "Apr", "May", "June"),
+Php = c(52.50, 57.25, 65.00, 60.00, 74.25, 54.00),
+liter = c(25, 30, 40, 50, 10, 45)
+)
+dieselfuel
+```
+#b
+```{r}
+weighted.mean(diesel_fuel$liter, diesel_fuel$purchase)
+```
+
+#7
+```{r}
+rivers
+```
+#a
+```{r}
+data <- c(length(rivers), sum(rivers), mean(rivers), median(rivers), var(rivers),
+sd(rivers), min(rivers), max(rivers))
+print(data)
+```
+#b
+```{r}
+#[1]    141.0000  83357.0000    591.1844    425.0000 243908.4086    493.8708
+#[7]    135.0000   3710.0000
+```
+
+#8-a
+```{r}
+power_ranking <- 1:25
+celebrity_name <- c("Tom Cruise", "Rolling Stones", "Oprah Winfrey", "U2", "Tiger Woods", "Steven Spielberg", "Howard Stern", "50 Cent", "Cast of the Sopranos", "Dan Brown", "Bruce Springsteen", "Donald Trump", "Muhammad Ali", "Paul McCartney", "George Lucas", "Elton John", "David Letterman", "Phil Mickelson", "J.K. Rowling", "Bradd Pitt", "Peter Jackson", "Dr. Phil McGraw", "Jay Leno", "Celine Dion", "Kobe Bryant")
+pay <- c(67, 90, 225, 110, 90, 332, 302, 41, 52, 88, 55, 44, 55, 40, 233, 34, 40, 47, 75, 25, 39, 45, 32, 40, 31)
+celebrity_data <- data.frame(PowerRanking = power_ranking, CelebrityName = celebrity_name, Pay = pay)
+celebrity_data
+
+```
+#b
+```{r}
+celebrity_data[celebrity_data$CelebrityName == "J.K. Rowling", "PowerRanking"] <- 15
+celebrity_data[celebrity_data$CelebrityName == "J.K. Rowling", "Pay"] <- 90
+
+celebrity_data
+
+
+
+```
+#c
+```{r}
+write.csv(celebrity_data, file = "PowerRanking.csv", row.names = FALSE)
+
+celebrity_data_imported <- read.csv("PowerRanking.csv")
+
+celebrity_data_imported
+
+```
+
+```{r}
+#d. Access the rows 10 to 20 and save it as Ranks.RData.
+#Write the R script and its output.
+ranked_subset <- celebrity_data[10:20, ]
+save(ranked_subset, file = "Ranks.RData")
+```
+
+#9-a
+```{r}
+library(readxl)
+hotels_data <- read_excel("hotels-vienna.xlsx")
+hotels_data
+```
+#b
+```{r}
+dataset_dimensions <- dim(hotels_data)
+dataset_dimensions
+```
+#c
+```{r}
+library(dplyr)
+selected_columns <- hotels_data %>% select(country, neighbourhood, price, stars, accommodation_type, rating)
+selected_columns
+```
+#d
+```{r}
+library(readxl)
+library(dplyr)
+
+hotels_data <- read_excel("hotels-vienna.xlsx")
+colnames(hotels_data)
+selected_columns <- hotels_data %>% select(country, neighbourhood, price, stars, accommodation_type, rating)
+save(selected_columns, file = "new.RData")
+
+```
+#e
+```{r}
+load("new.RData")
+
+first_six_rows <- head(selected_columns)
+print(first_six_rows)
+
+last_six_rows <- tail(selected_columns)
+print(last_six_rows)
+
+```
