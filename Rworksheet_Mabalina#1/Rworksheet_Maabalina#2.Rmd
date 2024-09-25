@@ -3,6 +3,7 @@ title: "Rworksheet_Mabalina#2"
 author: "Kristian B. Mabalina"
 date: "2024-09-25"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -77,16 +78,16 @@ x[2] <-c(0)
 #6
 #a
 ```{r}
-dieselfuel <- data.frame(
+diesel_fuel <- data.frame(
 Month = c("Jan", "Feb", "March", "Apr", "May", "June"),
 Php = c(52.50, 57.25, 65.00, 60.00, 74.25, 54.00),
 liter = c(25, 30, 40, 50, 10, 45)
 )
-dieselfuel
+
 ```
 #b
 ```{r}
-weighted.mean(diesel_fuel$liter, diesel_fuel$purchase)
+weighted.mean <-c(diesel_fuel$liter, diesel_fuel$purchase)
 ```
 
 #7
@@ -178,5 +179,25 @@ print(first_six_rows)
 
 last_six_rows <- tail(selected_columns)
 print(last_six_rows)
+```
 
+#10-a
+```{r}
+vegetables <- c("garlic", "corn", "unions", "eggplant", "broccoli", "collard greens", "peas", "cabbage", "pumpkin", "papaya")
+```
+
+#b
+```{r}
+vegetables <- c("garlic", "corn", "unions", "eggplant", "broccoli", "collard greens", "peas", "cabbage", "pumpkin", "papaya", "lettuce", "spinnach")
+```
+
+#c
+```{r}
+additionalvegetables <-c("mint","patato","cucumber","garlic")
+vegetableslist <-append(vegetables,additionalvegetables, after = 5)
+```
+#d
+```{r}
+vegetableslist <- vegetableslist[-c(15, 10, 5)]
+length(vegetableslist)
 ```
