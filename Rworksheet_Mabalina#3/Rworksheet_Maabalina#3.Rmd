@@ -1,0 +1,15 @@
+---
+title: "Rworksheet_Mabalina#3"
+author: "Kristian B. Mabalina"
+date: "2024-10-01"
+output: pdf_document
+---
+
+## lETTERS
+## [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S"
+## [20] "T" "U" "V" "W" "X" "Y" "Z"
+
+##letters
+## [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
+## [20] "t" "u" "v" "w" "x" "y" "z"
+
