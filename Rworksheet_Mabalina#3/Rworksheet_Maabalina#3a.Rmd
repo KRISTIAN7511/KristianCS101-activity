@@ -1,0 +1,137 @@
+---
+title: "Rworksheet_Mabalina#3"
+author: "Kristian B. Mabalina"
+date: "2024-10-01"
+output: pdf_document
+
+---
+##1.LETTERS 
+```{R}
+LETTERS <-c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
+```
+
+```{r}
+letters <-c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s","t", "u", "v", "w", "x", "y", "z")
+```
+##A
+```{r}
+first_11_letters <- LETTERS[1:11]
+first_11_letters
+```
+##B
+```{r}
+odd_letters <- LETTERS[seq(1, length(LETTERS), by = 2)]
+odd_letters
+```
+##C
+```{r}
+vowels <- LETTERS[c(1, 5, 9, 15, 21)]  
+vowels
+```
+##D
+```{r}
+last_5_lowercase <- letters[22:26]
+last_5_lowercase
+```
+##E
+```{r}
+letters_15_to_24 <- letters[15:24]
+letters_15_to_24
+```
+##2
+##A
+```{r}
+city <- c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban", "Samal Island", "Davao City")
+city
+```
+##B
+```{r}
+temp <- c(42, 39, 34, 34, 30, 27)
+temp
+```
+##C
+```{r}
+data <- data.frame(City = city, Temperature = temp)
+data
+```
+##D
+```{r}
+names(data) <- c("City", "Temperature")
+data
+```
+##E
+```{r}
+str(data)
+```
+##F
+```{r}
+data[3:4, ]
+```
+##G
+```{r}
+highest_temp_city <- data[which.max(data$Temperature), ]
+lowest_temp_city <- data[which.min(data$Temperature), ]
+
+highest_temp_city
+lowest_temp_city
+```
+###3
+##A
+```{r}
+matrix_data <- matrix(c(1:8, 11:14), nrow = 3, ncol = 4)
+matrix_data
+```
+##B
+```{r}
+matrix_multiplied <- matrix_data * 2
+matrix_multiplied
+```
+##C
+```{r}
+row_2 <- matrix_data[2, ]
+row_2
+```
+##D
+```{r}
+columns_3_4_row_1_2 <- matrix_data[1:2, 3:4]
+columns_3_4_row_1_2
+```
+##E
+```{r}
+row_3_columns_2_3 <- matrix_data[3, 2:3]
+row_3_columns_2_3
+```
+##F
+```{r}
+column_4 <- matrix_data[, 4]
+column_4
+```
+##G
+```{r}
+rownames(matrix_multiplied) <- c("one", "two", "Three")
+colnames(matrix_multiplied) <- c("ONE", "TWO", "THREE", "FOUR")
+matrix_multiplied
+```
+##H
+```{r}
+reshaped_matrix <- matrix(matrix_data, nrow = 6, ncol = 2)
+reshaped_matrix
+```
+##4
+##A
+```{r}
+
+values <-c(1, 2, 3, 6, 7, 8, 9, 0, 3, 4, 5, 1)
+values_repeated <-rep(values, times = 2)
+array_3d <-array(values_repeated, dim =c(2, 4, 3))
+array_3d
+```
+##B
+##The array has 3 dimensions
+
+##C
+```{r}
+dimnames(array_3d) <-list(c("a", "b"),c("A", "B", "C", "D"),c("1st-Dimensional Array", "2nd-Dimensional Array", "3rd-Dimensional Array")) 
+array_3d
+```
+
