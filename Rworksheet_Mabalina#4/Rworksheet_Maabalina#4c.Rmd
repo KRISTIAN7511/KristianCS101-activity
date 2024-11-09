@@ -1,0 +1,279 @@
+---
+title: "Rworksheet_Mabalina#4C"
+author: "Kristian B. Mabalina"
+date: "2024-11-09"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# 1
+
+#a
+```{r}
+mpgdata <- read.csv("mpg.csv")
+mpgdata
+```
+#b
+
+manufacturer - The car manufacturer (e.g., Audi, Chevrolet).
+ - model
+ - trans
+ - drv
+ - cyl
+ - fl
+ - class
+ - manufacturer
+  
+
+#c
+ - displ
+ - year
+ - cyt
+ - hwy
+ 
+ 
+# 2
+```{r}
+library(dplyr)
+manufacturer_count <- mpgdata %>%
+  group_by(manufacturer) %>%
+  summarise(model_count = n_distinct(model)) %>%
+  arrange(desc(model_count))
+
+most_models_manufacturer <- manufacturer_count[1, ]
+
+model_variation_count <- mpgdata %>%
+  group_by(model) %>%
+  summarise(variation_count = n()) %>%
+  arrange(desc(variation_count))
+
+most_variations_model <- model_variation_count[1, ]
+
+most_models_manufacturer
+most_variations_model
+```
+#a
+```{r}
+unique_models <- mpgdata %>%
+  group_by(manufacturer) %>%
+  summarise(unique_models = list(unique(model))) %>%
+  arrange(manufacturer)
+
+print(unique_models)
+```
+#b
+```{r}
+model_counts <- mpgdata %>%
+  group_by(manufacturer) %>%
+  summarise(unique_model_count = n_distinct(model)) %>%
+  arrange(desc(unique_model_count))
+
+
+barplot(model_counts$unique_model_count, 
+        names.arg = model_counts$manufacturer, 
+        las = 2, 
+        col = "lightblue", 
+        main = "Number of Unique Models by Manufacturer",
+        xlab = "Manufacturer", 
+        ylab = "Number of Unique Models")
+library(ggplot2)
+ggplot(model_counts, aes(x = reorder(manufacturer, unique_model_count), y = unique_model_count)) +
+  geom_bar(stat = "identity", fill = "lightblue") +
+  coord_flip() +
+  labs(title = "Number of Unique Models by Manufacturer", 
+       x = "Manufacturer", 
+       y = "Number of Unique Models") +
+  theme_minimal()
+```
+# 2
+#a
+x-axis: represents the model.
+y-axis: represents the manufacturer.
+However, since both model and manufacturer are categorical variables, the plot will display points for each combination of model and manufacturer. This can lead to a large number of overlapping points, making it difficult to discern any meaningful relationships or patterns.
+
+The result will likely look cluttered and may not effectively convey the relationship between the two variables.
+
+#b
+In its current form, the plot is not very useful for understanding the relationship between model and manufacturer due to the overplotting of points and the lack of numerical or continuous variables that might provide more insights.
+
+
+
+# 3
+```{r}
+library(ggplot2)
+library(dplyr)
+top_20_mpg <- mpgdata %>%
+  arrange(desc(cty)) %>%
+  head(20)
+ggplot(top_20_mpg, aes(x = model, y = year)) +
+  geom_point() +
+  labs(title = "Top 20 Models by Year", x = "Model", y = "Year") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+# 4
+```{r}
+model_counts <- mpg %>%
+  group_by(model) %>%
+  summarise(number_of_cars = n()) %>%
+  arrange(desc(number_of_cars))
+print(model_counts)
+```
+#a
+```{r}
+top_models <- mpgdata %>%
+  group_by(model) %>%
+  summarise(number_of_cars = n()) %>%
+  arrange(desc(number_of_cars)) %>%
+  slice_head(n = 20)
+
+ggplot(top_models, aes(x = reorder(model, number_of_cars), y = number_of_cars, fill = model)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +  
+  labs(title = "Top 20 Car Models by Number of Cars",
+       x = "Car Model",
+       y = "Number of Cars",
+       fill = "Model") +
+  theme_minimal() +
+  scale_fill_viridis_d() 
+```
+#b
+```{r}
+library(viridis)
+library(viridisLite)
+top_models <- mpgdata %>%
+  group_by(model) %>%
+  summarise(number_of_cars = n()) %>%
+  arrange(desc(number_of_cars)) %>%
+  slice_head(n = 20)
+ggplot(top_models, aes(x = reorder(model, number_of_cars), y = number_of_cars, fill = model)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Top 20 Car Models by Number of Cars",
+       x = "Car Model",
+       y = "Number of Cars") +
+  theme_minimal() +
+  scale_fill_viridis_d()
+```
+# 5
+```{r}
+ggplot(mpgdata, aes(x = cyl, y = displ, color = displ)) +
+  geom_point(size = 3, alpha = 0.7) +  
+  labs(title = "Relationship between No. of Cylinders and Engine Displacement",
+       x = "Number of Cylinders",
+       y = "Engine Displacement") +
+  theme_minimal() +
+  scale_color_viridis_c() 
+```
+#a. How would you describe its relationship? Show the codes and its result.
+
+General Trend: The scatter plot typically shows a positive correlation between the number of cylinders and engine displacement. As the number of cylinders increases, the engine displacement tends to increase as well.
+
+Clustered Data: You'll likely see clusters of points, where vehicles with lower cylinder counts (e.g., 4 cylinders) have relatively lower displacement values, while vehicles with higher cylinder counts (e.g., 6 or 8 cylinders) are associated with larger displacement values.
+
+Variability: While the trend is generally positive, there may be some variability, particularly at higher cylinder counts where engine displacement can vary more widely.
+
+Outliers: Pay attention to any outliers that might skew the perception of the relationship. For instance, a vehicle with a high displacement but a low cylinder count could indicate a performance-oriented engine.
+
+
+# 6
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = cty)) +
+  geom_point(size = 3, alpha = 0.7) + 
+  labs(title = "Relationship between Engine Displacement and Highway MPG",
+       x = "Engine Displacement (L)",
+       y = "Highway MPG",
+       color = "City MPG") +
+  theme_minimal() +
+  scale_color_viridis_c()
+```
+# 6
+```{r}
+library(readr)
+traffic_data <- read_csv("traffic.csv")
+head(traffic_data)
+```
+#a
+```{r}
+num_observations <- nrow(traffic_data)
+variables <- colnames(traffic_data)
+num_observations
+variables
+```
+#b
+```{r}
+junctions_data <- subset(traffic_data, Junction == TRUE)
+head(junctions_data)
+```
+#c
+```{r}
+library(ggplot2)
+ggplot(traffic_data, aes(x = DateTime, y = Vehicles, color = factor(Junction))) +
+  geom_line() +
+  labs(title = "Vehicle Counts at Junctions Over Time",
+       x = "Date and Time",
+       y = "Number of Vehicles",
+       color = "Junction") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+# 7
+```{r}
+
+```
+#a
+```{r}
+
+library(readxl)
+alexa_data <- read_excel("alexa_file.xlsx")
+dimensions <- dim(alexa_data)
+num_rows <- dimensions[1]
+num_columns <- dimensions[2]
+
+num_rows
+num_columns  
+
+```
+#b
+```{r}
+library(dplyr)
+variation_totals <- alexa_data %>%
+  group_by(variation) %>%
+  summarise(total = n())
+variation_totals
+
+```
+#c
+```{r}
+library(ggplot2)
+
+ggplot(variation_totals, aes(x = variation, y = total, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Counts for Each Variation", x = "Variation", y = "Total Count") +
+  theme_minimal()
+
+```
+#d
+```{r}
+alexa_data$verified_reviews <- as.numeric(alexa_data$verified_reviews)
+reviews_by_date <- alexa_data %>%
+  group_by(date) %>%
+  summarise(total_verified_reviews = sum(verified_reviews, na.rm = TRUE))
+library(ggplot2)
+ggplot(reviews_by_date, aes(x = date, y = total_verified_reviews)) +
+  geom_line(color = "blue") +
+  labs(title = "Verified Reviews Over Time", x = "Date", y = "Number of Verified Reviews") +
+  theme_minimal()
+```
+#e
+```{r}
+variation_ratings <- alexa_data %>%
+  group_by(variation) %>%
+  summarise(average_rating = mean(rating, na.rm = TRUE))
+ggplot(variation_ratings, aes(x = variation, y = average_rating, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Rating by Variation", x = "Variation", y = "Average Rating") +
+  theme_minimal()
+
+```
