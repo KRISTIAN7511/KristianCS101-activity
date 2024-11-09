@@ -1,0 +1,204 @@
+---
+title: "Rworksheet_Mabalina#4b"
+author: "Kristian B. Mabalina"
+date: "2024-10-29"
+output:
+  pdf_document: default
+  html_document: default
+---
+# 1
+```{r}
+vector <-c(1,2,3,4,5)
+m1 <-matrix(nrow =5, ncol = 5)
+
+for(i in 1:5){
+  for(j in 1:5){
+     m1[i, j] <- vector[i] + vector[j]
+  }
+}
+print(m1)
+```
+# 2
+```{r}
+num_rows <- 5
+for (i in 1:num_rows) {
+  cat(rep("*", i), "\n")
+}
+```
+# 3
+```{r}
+#start <- as.integer(readline(prompt = "Enter the starting number for the Fibonacci sequence: "))
+start <- 5
+a <- 0
+b <- 1
+repeat {
+  fib <- a + b
+  a <- b
+  b <- fib
+  if (fib >= start) {
+    cat(fib, " ")
+  }
+  if (fib >= 500) {
+    break
+  }
+}
+```
+# 4
+```{r}
+shoes <- read.csv("4bnum3.csv")
+shoes
+```
+#b
+```{r}
+femalesubset <- subset(shoes, Gender.1 == "F")
+malesubset <- subset(shoes, Gender.1 == "M")
+femalecount <- nrow(femalesubset)
+malecount <- nrow(malesubset)
+cat("Female:", femalecount, "\n")
+cat("Male:", malecount, "\n")
+```
+#c
+```{r}
+gendercounts <- table(shoes$Gender.1)
+barplot(gendercounts, 
+        main = "Number of Males and Females in Household Data",
+        xlab = "Gender",
+        ylab = "Count",
+        col = c("blue", "red"),
+        legend = c("Female", "Male"),
+        names.arg = c("Female", "Male"))
+```
+# 5
+```{r}
+expenses <- c(Food = 60, Electricity = 10, Savings = 5, Miscellaneous = 25)
+percent_labels <- paste0(names(expenses), " - ", round(expenses / sum(expenses) * 100), "%")
+pie(expenses, 
+    labels = percent_labels, 
+    col = c("green", "blue", "yellow", "red"), 
+    main = "Dela Cruz Family Monthly Expenses")
+
+```
+# 6
+```{r}
+data(iris)
+str(iris)
+```
+#b
+```{r}
+colMeans(iris[, 1:4])
+```
+#c
+```{r}
+species_counts <- table(iris$Species)
+pie(species_counts, 
+    main = "Species Distribution in Iris Dataset", 
+    col = c("blue", "green", "red"),
+    labels = paste(names(species_counts), "\n", species_counts))
+legend("topright", 
+       legend = names(species_counts), 
+       fill = c("blue", "green", "red"))
+
+```
+#d
+```{r}
+setosa <- subset(iris, Species == "setosa")
+versicolor <- subset(iris, Species == "versicolor")
+virginica <- subset(iris, Species == "virginica")
+tail(setosa)
+tail(versicolor)
+tail(virginica)
+```
+#e
+```{r}
+colors <- c("setosa" = "red", "versicolor" = "blue", "virginica" = "green")
+symbols <- c("setosa" = 16, "versicolor" = 17, "virginica" = 18)
+plot(iris$Sepal.Length, iris$Sepal.Width, 
+     col = colors[iris$Species], 
+     pch = symbols[iris$Species],
+     main = "Iris Dataset", 
+     sub = "Sepal Width and Length",
+     xlab = "Sepal Length", 
+     ylab = "Sepal Width")
+legend("topright", legend = c("Setosa", "Versicolor", "Virginica"), 
+       col = c("red", "blue", "green"), 
+       pch = c(16, 17, 18))
+
+```
+#f
+#--The data structure proved suitable for both initial exploratory analysis and in-depth statistical modeling.
+#--Mean values offered a quick snapshot of the key characteristics of the iris flowers.
+#--The pie chart effectively showcased the species distribution, highlighting setosa as the dominant species.
+#--Subsetting the dataset enabled a closer examination of each species, aiding in focused, species-specific analysis.
+#--The scatterplot revealed the correlation between sepal length and width, visually distinguishing species and allowing further investigation into their relationships.
+
+# 7
+```{r}
+library(readxl)
+alexa_data <- read_excel("alexa_file.xlsx")
+unique(alexa_data$variation)
+alexa_data$variation <- gsub("Black Dot", "BlackDot", alexa_data$variation)
+alexa_data$variation <- gsub("Black Plus", "BlackPlus", alexa_data$variation)
+alexa_data$variation <- gsub("Black Show", "BlackShow", alexa_data$variation)
+alexa_data$variation <- gsub("Black Spot", "BlackSpot", alexa_data$variation)
+alexa_data$variation <- gsub("White Dot", "WhiteDot", alexa_data$variation)
+alexa_data$variation <- gsub("White Plus", "WhitePlus", alexa_data$variation)
+alexa_data$variation <- gsub("White Show", "WhiteShow", alexa_data$variation)
+alexa_data$variation <- gsub("White Spot", "WhiteSpot", alexa_data$variation)
+unique(alexa_data$variation)
+```
+#b
+```{r}
+library(dplyr)
+variation_counts <- alexa_data %>%
+  count(variation)
+print(variation_counts)
+save(variation_counts, file = "variations.RData")
+```
+#c
+```{r}
+library(dplyr)
+load("variations.RData")
+variation_counts$variation <- gsub(" +", " ", variation_counts$variation)
+variation_counts$variation <- trimws(variation_counts$variation)
+bar_data <- variation_counts$n
+bar_names <- variation_counts$variation
+barplot(
+  bar_data,
+  main = "Counts of Variations",               
+  col = rainbow(length(bar_data)),              
+  names.arg = bar_names,                        
+  xlab = "Variations",                          
+  ylab = "Counts",                            
+  las = 2,                                      
+  border = "black"                               
+)
+text(x = seq_along(bar_data), y = bar_data, labels = bar_data, pos = 3, cex = 0.8, col = "black")
+
+```
+#d
+```{r}
+library(ggplot2)
+library(dplyr)
+load("variations.RData")
+variation_counts$variation <- gsub(" +", " ", variation_counts$variation)
+variation_counts$variation <- trimws(variation_counts$variation)
+bw_variations <- variation_counts %>%
+  filter(grepl("Black|White", variation))
+bar_data <- as.matrix(bw_variations$n)
+bar_names <- bw_variations$variation
+barplot(
+  bar_data,
+  beside = TRUE,                           
+  main = "Counts of Black and White Variations", 
+  col = c("black", "gray", "lightgray", "white"),  
+  names.arg = bar_names,                   
+  xlab = "Variations",                      
+  ylab = "Counts",                          
+  las = 2,                                
+  border = "black"                          
+)
+text(x = seq_along(bar_data), y = bar_data, labels = bar_data, pos = 3, cex = 0.8, col = "black")
+
+```
+
+
